@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from '../Pages/Home/Home';
 import Login from '../Pages/Login/Login';
-// import Registration from '../Pages/Registration/Registration';
+import Register from '../Pages/Register/Register';
 
 const Routers = () => {
 	return (
@@ -9,7 +9,7 @@ const Routers = () => {
 			<Routes>
 				<Route index element={<Home />} />
 				<Route path='login' element={<Login />} />
-				{/* <Route path='teams' element={<Registration />} /> */}
+				<Route path='register' element={<Register />} />
 			</Routes>
 		</BrowserRouter>
 	);
