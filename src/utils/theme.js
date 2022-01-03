@@ -9,7 +9,13 @@ const colors = {
     700: '#2a69ac',
   },
 }
-
-const theme = extendTheme({ colors })
+const Container = {
+  baseStyle: {
+    maxW: '90ch'
+  },
+}
+const theme = extendTheme({ colors,components: {
+  Container
+}, })
 
 export default theme

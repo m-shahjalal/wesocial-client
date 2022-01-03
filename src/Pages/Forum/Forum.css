@@ -1,0 +1,37 @@
+.forum-display{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    gap: 10px;
+}
+.forum-display-top{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    gap: 10px;
+    align-items: center;
+}
+.community-btn{
+    background-color: #f3f6f4;
+}
+.top-btn{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.fs{
+    font-size: 35px;
+}
+.post-modal{
+
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+.post-modal-name{
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+}
