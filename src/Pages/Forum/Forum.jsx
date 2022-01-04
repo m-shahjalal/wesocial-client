@@ -2,7 +2,7 @@ import { Alert, Divider, Avatar, Stack, Table, Tbody, Thead, Tr, WrapItem, Menu,
 import { Box, Container } from '@chakra-ui/react';
 import { Flex, Spacer } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react';
-import { ChatIcon, StarIcon } from '@chakra-ui/icons';
+import { ChatIcon, StarIcon , ArrowRightIcon} from '@chakra-ui/icons';
 import { FcCamcorderPro, FcAddImage, FcComboChart } from "react-icons/fc";
 import './Forum.css'
 import { FiImage, FiUserCheck, FiSmile, FiMic } from "react-icons/fi";
@@ -165,15 +165,22 @@ const Forum = () => {
                     <small style={{display:"flex", justifyContent:"end"}}> 
 
                     {/* <span> <ChatIcon/> </span>  */}
-                    <Popover>
+                    <Popover outline='none' border='0px'>
                         <PopoverTrigger>
                         <span> <ChatIcon/> </span> 
                         </PopoverTrigger>
-                        <PopoverContent>
+                        <PopoverContent outline='none' border='0px'>
+                            <form action="">
                             <PopoverArrow />
                             <PopoverCloseButton/>
-                            <PopoverHeader>Confirmation!</PopoverHeader>
-                            <PopoverBody>Are you sure you want to have that milkshake?</PopoverBody>
+                            <PopoverHeader>Put a comment</PopoverHeader>
+                            <PopoverBody>  
+                                <Textarea variant='flushed' placeholder='Write here...' />
+                                <Button colorScheme='teal' style={{width:"100%"}} size='sm'>
+                                    <ArrowRightIcon/>
+                                </Button>
+                            </PopoverBody>
+                            </form>
                         </PopoverContent>
                     </Popover>
                     

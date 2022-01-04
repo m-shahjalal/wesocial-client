@@ -32,18 +32,11 @@ const Login = () => {
 				.catch((err) => console.log(err));
 				console.log(value);
 
-				localStorage.setItem("user", value);
+				localStorage.setItem("user", value.email);
 				// localStorage.setItem("password", value.password);
 
 	};
-	useEffect(() => {
-		const loggedInUser = localStorage.getItem("user");
-		if (loggedInUser) {
-		  const foundUser = JSON.parse(loggedInUser);
-		//   setUser(foundUser);
-		console.log(foundUser)
-		}
-	  }, []);
+
 
 	return (
 		<Flex
