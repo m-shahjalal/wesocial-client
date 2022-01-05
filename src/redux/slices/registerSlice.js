@@ -7,16 +7,19 @@ const initialState = {
 	error: null,
 };
 
-export const registerUser = createAsyncThunk('registerUser', async (info, {rejectWithValue}) => {
-	try {
-		return await (
-			await userApi.login(info)
-		).data;
-	} catch (err) {
-		if (!err.response) throw err;
-		return rejectWithValue(err?.response?.data[0]?.msg);
+export const registerUser = createAsyncThunk(
+	'registerUser',
+	async (info, { rejectWithValue }) => {
+		try {
+			return await (
+				await userApi.register(info)
+			).data;
+		} catch (err) {
+			if (!err.response) throw err;
+			return rejectWithValue(err?.response?.data[0]?.msg);
+		}
 	}
-});
+);
 
 const counterSlice = createSlice({
 	name: 'counter',
@@ -27,7 +30,11 @@ const counterSlice = createSlice({
 		},
 		[registerUser.fulfilled](state, { payload }) {
 			state.loading = false;
-			state.data = payload;
+			if (payload.status === 500) {
+				state.error = payload.error;
+			} else {
+				state.data = payload;
+			}
 		},
 		[registerUser.rejected](state, { payload }) {
 			state.loading = false;

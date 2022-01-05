@@ -24,6 +24,7 @@ const Register = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const register = useSelector((state) => state.register);
+	console.log(register);
 	const user = useSelector((state) => state.user);
 	const [showPassword, setShowPassword] = useState(false);
 	const [value, setValue] = useState({
@@ -40,12 +41,15 @@ const Register = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		value.email && value.password && dispatch(registerUser(value));
-		return !!register.data?.success && navigate('/login');
 	};
 
 	useEffect(
 		() => user.data && navigate('/', { replace: true }),
 		[navigate, user.data]
+	);
+	useEffect(
+		() => register.data?.success && navigate('/login', { replace: true }),
+		[navigate, register.data?.success]
 	);
 
 	return (
@@ -71,7 +75,7 @@ const Register = () => {
 						p={8}>
 						{register.error && (
 							<Text align='center' mb='6' color='red.400'>
-								{user.error}
+								{register.error}
 							</Text>
 						)}
 						<Stack as='form' onSubmit={handleSubmit} spacing={4}>

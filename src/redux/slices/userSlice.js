@@ -8,14 +8,21 @@ const initialState = {
 	error: null,
 };
 
-export const fetchUser = createAsyncThunk('fetchUser', async (info, {rejectWithValue}) => {
-	try {
-		return await (await userApi.login(info)).data
-	} catch (err) {
-		if(!err.response) throw err;
-		return rejectWithValue(err?.response?.data[0]?.msg || 'something went wrong');
+export const fetchUser = createAsyncThunk(
+	'fetchUser',
+	async (info, { rejectWithValue }) => {
+		try {
+			return await (
+				await userApi.login(info)
+			).data;
+		} catch (err) {
+			if (!err.response) throw err;
+			return rejectWithValue(
+				err?.response?.data[0]?.msg || 'something went wrong'
+			);
+		}
 	}
-});
+);
 
 const userSlice = createSlice({
 	name: 'user',
@@ -26,11 +33,16 @@ const userSlice = createSlice({
 		},
 		[fetchUser.fulfilled](state, { payload }) {
 			state.loading = false;
-			state.data = payload;
-			state.isLoggedIn = true;
+			if (!!payload.email) {
+				state.data = payload;
+				state.isLoggedIn = true;
+			} else {
+				state.isLoggedIn = false;
+				state.error = 'something wrong try again!';
+			}
 		},
 		[fetchUser.rejected](state, { payload }) {
-			console.log(payload)
+			console.log(payload);
 			state.loading = false;
 			state.error = payload;
 			state.isLoggedIn = false;
