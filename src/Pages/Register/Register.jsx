@@ -1,27 +1,30 @@
-import React from 'react';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import {
-	Flex,
 	Box,
+	Button,
+	Flex,
 	FormControl,
 	FormLabel,
+	Heading,
+	HStack,
 	Input,
 	InputGroup,
-	HStack,
 	InputRightElement,
+	Spinner,
 	Stack,
-	Button,
-	Heading,
 	Text,
-	useColorModeValue,
-	Link,
+	useColorModeValue
 } from '@chakra-ui/react';
-// import { Link as ReachLink } from "@reach/router";
-import { useState } from 'react';
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import { NavLink } from 'react-router-dom';
-import * as userApi from '../../api/user';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { registerUser } from '../../redux/slices/registerSlice';
 
 const Register = () => {
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const register = useSelector((state) => state.register);
+	const user = useSelector((state) => state.user);
 	const [showPassword, setShowPassword] = useState(false);
 	const [value, setValue] = useState({
 		name: '',
@@ -36,13 +39,15 @@ const Register = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		value.email &&
-			value.password &&
-			userApi
-				.register(value)
-				.then((res) => console.log(res))
-				.catch((err) => console.log(err));
+		value.email && value.password && dispatch(registerUser(value));
+		return !!register.data?.success && navigate('/login');
 	};
+
+	useEffect(
+		() => user.data && navigate('/', { replace: true }),
+		[navigate, user.data]
+	);
+
 	return (
 		<>
 			<Flex
@@ -64,6 +69,11 @@ const Register = () => {
 						bg={useColorModeValue('white', 'gray.700')}
 						boxShadow={'lg'}
 						p={8}>
+						{register.error && (
+							<Text align='center' mb='6' color='red.400'>
+								{user.error}
+							</Text>
+						)}
 						<Stack as='form' onSubmit={handleSubmit} spacing={4}>
 							<HStack>
 								<FormControl id='firstName' isRequired>
@@ -125,14 +135,15 @@ const Register = () => {
 							</FormControl>
 							<Stack spacing={10} pt={2}>
 								<Button
-									loadingText='Submitting'
-									size='lg'
 									type='submit'
 									bg={'blue.400'}
 									color={'white'}
 									_hover={{
 										bg: 'blue.500',
 									}}>
+									{register.loading && (
+										<Spinner size='sm' mx={2} />
+									)}
 									Sign up
 								</Button>
 							</Stack>

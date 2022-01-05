@@ -1,42 +1,38 @@
-import { useEffect, useState } from 'react';
 import {
-	Flex,
 	Box,
+	Button,
+	Flex,
 	FormControl,
 	FormLabel,
-	Input,
-	Checkbox,
-	Stack,
-	Link,
-	Button,
 	Heading,
+	Input, Spinner,
+	Stack,
 	Text,
-	useColorModeValue,
+	useColorModeValue
 } from '@chakra-ui/react';
-import * as userApi from '../../api/user';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { fetchUser } from '../../redux/slices/userSlice';
 
 const Login = () => {
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const user = useSelector((state) => state.user);
 	const [value, setValue] = useState({ email: '', password: '' });
-
 	const handleChange = (e) => {
 		setValue({ ...value, [e.target.name]: e.target.value });
 	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		value.email &&
-			value.password &&
-			userApi
-				.login(value)
-				.then((res) => console.log(res))
-				.catch((err) => console.log(err));
-				console.log(value);
-
-				localStorage.setItem("user", value.email);
-				// localStorage.setItem("password", value.password);
-
+		value.email && value.password && dispatch(fetchUser(value));
 	};
 
+	useEffect(
+		() => user.data && navigate('/', { replace: true }),
+		[navigate, user.data]
+	);
 
 	return (
 		<Flex
@@ -49,7 +45,7 @@ const Login = () => {
 					<Heading fontSize={'4xl'}>Sign in to your account</Heading>
 					<Text fontSize={'lg'} color={'gray.600'}>
 						to enjoy WeSocial fun{' '}
-						<Link color={'blue.400'}>features</Link> ✌️
+						<Box style={{display: 'inline'}} color={'blue.400'}>features</Box> ✌️
 					</Text>
 				</Stack>
 				<Box
@@ -57,6 +53,7 @@ const Login = () => {
 					bg={useColorModeValue('white', 'gray.700')}
 					boxShadow={'lg'}
 					p={8}>
+						{user.error && <Text align='center' mb='6' color='red.400'>{user.error}</Text>}
 					<Stack as='form' onSubmit={handleSubmit} spacing={4}>
 						<FormControl id='email'>
 							<FormLabel>Email address</FormLabel>
@@ -77,13 +74,6 @@ const Login = () => {
 							/>
 						</FormControl>
 						<Stack spacing={10}>
-							<Stack
-								direction={{ base: 'column', sm: 'row' }}
-								align={'start'}
-								justify={'space-between'}>
-								<Checkbox>Remember me</Checkbox>
-								<Link color={'blue.400'}>Forgot password?</Link>
-							</Stack>
 							<Button
 								type='submit'
 								bg={'blue.400'}
@@ -91,6 +81,7 @@ const Login = () => {
 								_hover={{
 									bg: 'blue.500',
 								}}>
+								{user.loading && <Spinner size='sm' mx={2} />}
 								Sign in
 							</Button>
 						</Stack>
