@@ -2,7 +2,7 @@ import { Alert, Divider, Avatar, Stack, Table, Tbody, Thead, Tr, WrapItem, Menu,
 import { Box, Container } from '@chakra-ui/react';
 import { Flex, Spacer } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react';
-import { ChatIcon, StarIcon } from '@chakra-ui/icons';
+import { ChatIcon, StarIcon, ArrowRightIcon } from '@chakra-ui/icons';
 import { FcCamcorderPro, FcAddImage, FcComboChart } from "react-icons/fc";
 import './Forum.css'
 import { FiImage, FiUserCheck, FiSmile, FiMic } from "react-icons/fi";
@@ -10,26 +10,16 @@ import { IoCloudDownloadOutline, IoEllipsisVertical } from "react-icons/io5";
 import { useForm } from "react-hook-form";
 import axios from 'axios';
 import swal from 'sweetalert';
+import Comment from './Comment';
+import { Link } from 'react-router-dom';
+
 
 
 
 
 const Forum = () => {
-
-
-    /* -------------------
-    Posts fetch and Filter
-    ---------------------*/
-    // const [communityPosts, setCommunityPosts] = useState({})
-
-    // useEffect(()=>{
-    //     fetch("")
-    //     .than(res => res.json())
-    //     .than(data => setCommunityPosts(data))
-    // },[communityPosts])
-
-
-
+    /* Route */
+    // let { path, url } = useRouteMatch();
 
     /* Post Method */
     const { register, handleSubmit , reset} = useForm();
@@ -44,8 +34,27 @@ const Forum = () => {
         })
     };
 
+
+    /* -------------------
+    Posts fetch and Filter
+    ---------------------*/
+
+    const [communityPosts, setCommunityPosts] = useState([])
+
+    useEffect(()=>{
+        fetch("http://localhost:5000/communityPosts")
+        .then(res => res.json())
+        .then(data => setCommunityPosts(data))
+    },[communityPosts])
+    
+
+
     /* Modal */
     const { isOpen, onOpen, onClose } = useDisclosure()
+
+    /* Time */
+    let myCurrentDate = new Date();
+    let now = myCurrentDate.getFullYear()+'-'+(myCurrentDate.getMonth()+1)+'-'+myCurrentDate.getDate();
 
 
 
@@ -80,9 +89,10 @@ const Forum = () => {
                                         </WrapItem>
                                         <div className='post-modal-name'>
                                             <p>My Name</p>
-                                            <p><button style={{padding:"2px 10px", borderRadius:"5px"}} className='community-btn'>Community Post</button></p>
+                                            <p><button style={{padding:"2px 10px", borderRadius:"5px"}} type="button" className='community-btn'>Community Post</button></p>
                                         </div>
                                     </div>
+                                    <input type="text" name="" {...register("time")} style={{display:"none"}} value={now} id="" />
                                     <Textarea {...register("article")} style={{border:"none", marginTop:"15px", minHeight:"180px"}} variant='unstyled' placeholder='What on your mind Mr/Mrs' />
                                     <div className='top-btn' style={{border:"1px solid #e2e8f0", padding:"10px", borderRadius:"8px"}}>
                                         <button>Add to your post</button>
@@ -141,7 +151,9 @@ const Forum = () => {
                     Community Posts 
                 -------------------------*/}
 
-                <div style={{backgroundColor:"#f3f6f4"}}className='forum-display'>
+                {communityPosts.map(communityPost =>
+                <section>
+                    <div style={{backgroundColor:"#f3f6f4"}}className='forum-display'>
                     <Menu>
                         {({ isOpen }) => (
                             <>
@@ -160,28 +172,24 @@ const Forum = () => {
                         )}
                     </Menu>
                     
-                    <Text color='black' fontSize='sm'>(sm) In love with React & Next (sm) In love with React & Next
+                    <Text color='black' fontSize='sm'>{communityPost.article}
 
                     <small style={{display:"flex", justifyContent:"end"}}> 
 
                     {/* <span> <ChatIcon/> </span>  */}
-                    <Popover>
-                        <PopoverTrigger>
-                        <span> <ChatIcon/> </span> 
-                        </PopoverTrigger>
-                        <PopoverContent>
-                            <PopoverArrow />
-                            <PopoverCloseButton/>
-                            <PopoverHeader>Confirmation!</PopoverHeader>
-                            <PopoverBody>Are you sure you want to have that milkshake?</PopoverBody>
-                        </PopoverContent>
-                    </Popover>
+                    <Comment key={communityPost._id} articleId={communityPost._id}></Comment>
                     
-                    &nbsp;&nbsp;&nbsp;&nbsp; <span><StarIcon/></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>102 replies</span>&nbsp;&nbsp;&nbsp;&nbsp; <span>Just now</span></small>
+                    &nbsp;&nbsp;&nbsp;&nbsp; <span><StarIcon/></span>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                    <span><Link to={`replies/${communityPost._id}`}>101 replies</Link></span>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp; <span>{communityPost.time}</span></small>
                     
                     </Text>
                 </div>
                 <br />
+                </section>)}
+
 
                 
 			</Box>
@@ -191,42 +199,54 @@ const Forum = () => {
 
 export default Forum;
 
+
 /* 
+function Topics() {
+  // The `path` lets us build <Route> paths that are
+  // relative to the parent route, while the `url` lets
+  // us build relative links.
+  let { path, url } = useRouteMatch();
 
-<Popover>
-  <PopoverTrigger>
-    <Button>Trigger</Button>
-  </PopoverTrigger>
-  <PopoverContent>
-    <PopoverArrow />
-    <PopoverCloseButton />
-    <PopoverHeader>Confirmation!</PopoverHeader>
-    <PopoverBody>Are you sure you want to have that milkshake?</PopoverBody>
-  </PopoverContent>
-</Popover>
-
-
-----------------------------------------
-
-
-import React from "react";
-import { useForm } from "react-hook-form";
-
-export default function App() {
-  const { register, handleSubmit } = useForm();
-  const onSubmit = data => console.log(data);
-   
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input {...register("firstName")} />
-      <select {...register("gender")}>
-        <option value="female">female</option>
-        <option value="male">male</option>
-        <option value="other">other</option>
-      </select>
-      <input type="submit" />
-    </form>
+    <div>
+      <h2>Topics</h2>
+      <ul>
+        <li>
+          <Link to={`${url}/rendering`}>Rendering with React</Link>
+        </li>
+        <li>
+          <Link to={`${url}/components`}>Components</Link>
+        </li>
+        <li>
+          <Link to={`${url}/props-v-state`}>Props v. State</Link>
+        </li>
+      </ul>
+
+      <Switch>
+        <Route exact path={path}>
+          <h3>Please select a topic.</h3>
+        </Route>
+        <Route path={`${path}/:topicId`}>
+          <Topic />
+        </Route>
+      </Switch>
+    </div>
+  );
+}
+
+function Topic() {
+  // The <Route> that rendered this component has a
+  // path of `/topics/:topicId`. The `:topicId` portion
+  // of the URL indicates a placeholder that we can
+  // get from `useParams()`.
+  let { topicId } = useParams();
+
+  return (
+    <div>
+      <h3>{topicId}</h3>
+    </div>
   );
 }
 
 */
+
