@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import * as userApi from '../../api/user';
 
 const initialState = {
+	isLoggedIn: false,
 	loading: false,
 	data: null,
 	error: null,
@@ -12,7 +13,7 @@ export const fetchUser = createAsyncThunk('fetchUser', async (info, {rejectWithV
 		return await (await userApi.login(info)).data
 	} catch (err) {
 		if(!err.response) throw err;
-		return rejectWithValue(err?.response?.data[0]?.msg);
+		return rejectWithValue(err?.response?.data[0]?.msg || 'something went wrong');
 	}
 });
 
@@ -26,11 +27,13 @@ const userSlice = createSlice({
 		[fetchUser.fulfilled](state, { payload }) {
 			state.loading = false;
 			state.data = payload;
+			state.isLoggedIn = true;
 		},
 		[fetchUser.rejected](state, { payload }) {
 			console.log(payload)
 			state.loading = false;
 			state.error = payload;
+			state.isLoggedIn = false;
 		},
 	},
 });
