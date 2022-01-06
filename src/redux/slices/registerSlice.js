@@ -10,14 +10,17 @@ const initialState = {
 export const registerUser = createAsyncThunk(
 	'registerUser',
 	async (info, { rejectWithValue }) => {
+		console.log("Got it");
 		try {
-			return await (
-				await userApi.register(info)
-			).data;
+			const result = await userApi.register(info);
+			console.log(result);
+			return result.data;
 		} catch (err) {
-			if (!err.response) throw err;
+			console.log(err, "Got Catch");
+			if (err.response) throw err;
 			return rejectWithValue(err?.response?.data[0]?.msg);
 		}
+		
 	}
 );
 

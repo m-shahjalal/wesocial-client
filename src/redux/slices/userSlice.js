@@ -16,6 +16,7 @@ export const fetchUser = createAsyncThunk(
 				await userApi.login(info)
 			).data;
 		} catch (err) {
+			console.log(err)
 			if (!err.response) throw err;
 			return rejectWithValue(
 				err?.response?.data[0]?.msg || 'something went wrong'

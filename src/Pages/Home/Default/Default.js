@@ -4,32 +4,26 @@ import { Flex, Spacer } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react';
 import { ChatIcon, StarIcon, ArrowRightIcon, SpinnerIcon, CheckCircleIcon } from '@chakra-ui/icons';
 import { FcCamcorderPro, FcAddImage, FcComboChart } from "react-icons/fc";
-import './Forum.css'
+import '../../Forum/Forum.css'
 import { FiImage, FiUserCheck, FiSmile, FiMic } from "react-icons/fi";
 import { IoCloudDownloadOutline, IoEllipsisVertical } from "react-icons/io5";
 import { useForm } from "react-hook-form";
 import axios from 'axios';
-
-// import { FcAddImage, FcCamcorderPro, FcComboChart } from 'react-icons/fc';
-// import { FiImage, FiMic, FiSmile, FiUserCheck } from 'react-icons/fi';
-// import { IoCloudDownloadOutline, IoEllipsisVertical } from 'react-icons/io5';
 import swal from 'sweetalert';
-import Comment from './Comment';
 import { Link } from 'react-router-dom';
 
 
 
 
 
-const Forum = () => {
-    /* Route */
-    // let { path, url } = useRouteMatch();
 
-    /* Post Method */
+const Default = () => {
+
+    /* Status Post Method */
     const { register, handleSubmit , reset} = useForm();
     const onSubmit = data => {
         console.log(data)
-        axios.post('http://localhost:5000/communityPosts', data)
+        axios.post('http://localhost:5000/userStatus', data)
         .then(res => {
             if (res.data.insertedId) {
                 swal("Well done!", "Your article has been published successfully!", "success");
@@ -39,17 +33,17 @@ const Forum = () => {
     };
 
 
-    /* -------------------
-    Posts fetch and Filter
-    ---------------------*/
+    /* -----------------------------
+    Status Posts fetch and Filter
+    --------------------------------*/
 
-    const [communityPosts, setCommunityPosts] = useState([])
+    const [userStatuses, setUserStatuses] = useState([])
 
     useEffect(()=>{
-        fetch("http://localhost:5000/communityPosts")
+        fetch("http://localhost:5000/userStatus")
         .then(res => res.json())
-        .then(data => setCommunityPosts(data))
-    },[communityPosts])
+        .then(data => setUserStatuses(data))
+    },[userStatuses])
     
 
 
@@ -182,7 +176,7 @@ const Forum = () => {
 				{/* ----------------------
                     Community Posts 
                 -------------------------*/}
-                {communityPosts.map(communityPost =>
+                {userStatuses.map(userStatus =>
                 <section>
                     <div style={{backgroundColor:"#f3f6f4", padding:"15px"}}className='' >
                     <aside style={{display:"flex", alignItems:"center"}}>
@@ -206,23 +200,23 @@ const Forum = () => {
                         &nbsp;&nbsp;&nbsp;
                         <div style={{color:"black"}}>
                             <p >Reazour Rahaman</p>
-                            <small style={{display:"flex", alignItems:"center"}}>{communityPost.time}&nbsp;&nbsp; <CheckCircleIcon style={{color:"blue"}}/></small>
+                            <small style={{display:"flex", alignItems:"center"}}>{userStatus.time}&nbsp;&nbsp; <CheckCircleIcon style={{color:"blue"}}/></small>
                         </div>
                     </aside>
                     &nbsp;
                     
-                    <Text color='black' fontSize='md'>{communityPost.article}
+                    <Text color='black' fontSize='md'>{userStatus.article}
 
                     <p style={{display:"flex", justifyContent:"end"}}> 
 
                     {/* <span> <ChatIcon/> </span>  */}
-                    <Comment key={communityPost._id} articleId={communityPost._id}></Comment>
+                    {/* <Comment key={userStatus._id} articleId={userStatus._id}></Comment> */}
                     
                     &nbsp;&nbsp;&nbsp;&nbsp; <span className='dynamic-btn-hovering'><StarIcon/></span>&nbsp;&nbsp;&nbsp;&nbsp;
 
-                    <span className='dynamic-btn-hovering'><Link to={`replies/${communityPost._id}`}>See replies</Link></span>
+                    <span className='dynamic-btn-hovering'><Link to={`replies/${userStatus._id}`}>See replies</Link></span>
 
-                    &nbsp;&nbsp;&nbsp;&nbsp; <span>{communityPost.time}</span></p>
+                    &nbsp;&nbsp;&nbsp;&nbsp; <span>{userStatus.time}</span></p>
                     
                     </Text>
                 </div>
@@ -236,4 +230,4 @@ const Forum = () => {
 	);
 };
 
-export default Forum;
+export default Default;
