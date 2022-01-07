@@ -24,18 +24,18 @@ const NavBar = () => {
 
                             <NavLink  to="/">
                                 <Button>
-                                <AiOutlineHome/>
-                                </Button>           
+                                    <AiOutlineHome />
+                                </Button>
                             </NavLink>
 
                             <Button>
-                            <BiMessageRounded/>
+                                <BiMessageRounded />
                             </Button>
 
                             <NavLink to="/forum">
                                 <Button>
-                                    <GrGraphQl/>
-                                </Button>           
+                                    <GrGraphQl />
+                                </Button>
                             </NavLink>
 
                             <Button onClick={toggleColorMode}>
@@ -68,7 +68,10 @@ const NavBar = () => {
                                     </Center>
                                     <br />
                                     <MenuDivider />
-                                    <MenuItem>View Profile</MenuItem>
+                                    <Link to='/profile'>
+                                        <MenuItem>View Profile</MenuItem>
+
+                                    </Link>
                                     <MenuItem>Account Settings</MenuItem>
                                     <MenuItem>Logout</MenuItem>
                                 </MenuList>
