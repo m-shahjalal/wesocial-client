@@ -1,98 +1,49 @@
-import React, { useEffect, useState } from 'react';
-import initializationAuthentication from '../pages/LogIn/firebase/firebase.init';
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, sendPasswordResetEmail, TwitterAuthProvider, GithubAuthProvider, FacebookAuthProvider, createUserWithEmailAndPassword      } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut  } from "firebase/auth";
+import { useEffect } from "react";
+import { useState } from "react";
+import initializationAuthentication from "../Pages/firebase/firebase.init";
 
 initializationAuthentication();
 
 const useFirebase = () => {
-    const [user, setUser] = useState({});
-    const [error, setError] = useState('');
-
-    const googleProvider = new GoogleAuthProvider();
-    const facebookProvider = new FacebookAuthProvider();
-    const TwitterProvider = new TwitterAuthProvider();
-    const gitHubProvider = new GithubAuthProvider();
-
+    const [userId, setUsers] = useState({})
+    const [error, setError] = useState("")
+    const [isLoading, setIsLoading] = useState(true);
     const auth = getAuth();
 
-  const handleUserRegister = (email, password) => {
-    createUserWithEmailAndPassword(auth, email, password)
-        .then((result) => {
-            const user = result.user;
-            console.log(user)
-        })
-}
- 
+    const googleProvider = new GoogleAuthProvider();
 
-    
-    /* -----------------------------------------------------
-    --------------------------------------------------------- */
-    
-    /* Handle Google Log In */
+    /* google log in */
     const handleGoogleLogIn = () =>{
-      return signInWithPopup(auth, googleProvider)
+      setIsLoading(true);
+       return signInWithPopup(auth, googleProvider)
     }
 
-    console.log(user)
 
-    /* Handle facebook Log In */
-    const handleFacebookLogIn = () =>{
-        signInWithPopup(auth, facebookProvider)
-        .then((result) => {
-            setUser(result.user);
-        }).catch((error) => {
-          setError(error.message)
-        });
-    }
 
-    /* Handle twitter log in */
-    const handleTwitterLogIn = () => {
-      signInWithPopup(auth, TwitterProvider)
-      .then((result) => {
-        setUser(result.user);
-      }).catch((error) => {
-        setError(error.message)
-      });
-    }
-    /* handle git hub log in */
-    const handleGitHubLogIn = () =>{
-      signInWithPopup(auth, gitHubProvider)
-      .then((result) => {
-        setUser(result.user);
-      }).catch((error) => {
-        setError(error.message);
-      });
-    }
-
-    /* Get the currently signed-in user (observer) */
+    /* Get the currently signed-in user */
     useEffect(()=>{
-        onAuthStateChanged(auth, user => {
-            if (user) {
-              setUser(user)
+        onAuthStateChanged(auth, userId => {
+            if (userId) {
+              setUsers(userId)
             } 
+            setIsLoading(false);
           });
     },[])
 
-    /* Handle  Log Out */
-    const handleGoogleLogOut = () =>{
-
+    const logOut = () => {
         signOut(auth).then(() => {
-            setUser({})
-          }).catch((error) => {
-            setError(error.message)
-          });
+            setUsers({})
+          }).finally( () => setIsLoading(false))
     }
 
 
     return {
-      handleUserRegister,
-        handleGoogleLogIn,
-        handleFacebookLogIn,
-        handleTwitterLogIn,
-        handleGoogleLogOut,
-        handleGitHubLogIn,
-        user,
+        userId,
         error,
+        handleGoogleLogIn,
+        logOut,
+        isLoading
     }
 };
 

@@ -1,6 +1,11 @@
 import {
+	Alert,
+	AlertDescription,
+	AlertIcon,
+	AlertTitle,
 	Box,
 	Button,
+	CloseButton,
 	Flex,
 	FormControl,
 	FormLabel,
@@ -12,8 +17,13 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchUser } from '../../redux/slices/userSlice';
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub, FaFacebook } from "react-icons/fa";
+import './Login.css'
+import useFirebase from '../../hooks/useFirebase';
+
 
 const Login = () => {
 	const dispatch = useDispatch();
@@ -33,6 +43,32 @@ const Login = () => {
 		() => user.data && navigate('/', { replace: true }),
 		[navigate, user.data]
 	);
+
+	/* ______________________________________________________________________ */
+	/* Google log in */
+	const { handleGoogleLogIn, userId} = useFirebase();
+    const history = useNavigate();
+    const location = useLocation();
+    let { from } = location.state || { from: { pathname: "/" } };
+
+    const googleSignIn = () => {
+        handleGoogleLogIn()
+        .then((result) => {
+            history.replace(from);
+        })
+    };
+	console.log(userId);
+	/* ______________________________________________________________________ */
+
+	/* Conditional Alert */
+	const [startAlert, setStartAlert] = useState(false);
+
+	const startAlertComponent = () =>{
+		setStartAlert(true)
+	}
+	const CloseAlertComponent = () =>{
+		setStartAlert(false)
+	}
 
 	return (
 		<Flex
@@ -87,9 +123,49 @@ const Login = () => {
 						</Stack>
 					</Stack>
 				</Box>
+				<Box>
+					{/* Alert for upcoming features */}
+
+					{ startAlert ?<Alert mb={'4'} mt={'0'} status='warning'>
+					<AlertIcon />
+					<Box flex='1'>
+						<AlertTitle>Opsssss!</AlertTitle>
+						<AlertDescription display='block'>
+						This feature is not available at this moment. We are lunching this feature soon. Please, Try google sign in method.
+						</AlertDescription>
+					</Box>
+					<CloseButton onClick={CloseAlertComponent} position='absolute' right='8px' top='8px' />
+					</Alert> : null
+					}
+
+					<Flex
+						align={'center'}
+						style={{justifyContent:"space-between"}}
+					>
+						<Button onClick={googleSignIn} className='auth-log' boxShadow={'lg'} bg={'white'}><FcGoogle/></Button>
+						<Button onClick={startAlertComponent} className='auth-log' boxShadow={'lg'} bg={'white'}><FaGithub color={'black'}/></Button>
+						<Button onClick={startAlertComponent} className='auth-log' boxShadow={'lg'} bg={'white'} color={'blue.400'}><FaFacebook/></Button>
+					</Flex>
+				</Box>
 			</Stack>
 		</Flex>
 	);
 };
 
 export default Login;
+
+
+/* 
+<Alert status='success'>
+  <AlertIcon />
+  <Box flex='1'>
+    <AlertTitle>Success!</AlertTitle>
+    <AlertDescription display='block'>
+      Your application has been received. We will review your application and
+      respond within the next 48 hours.
+    </AlertDescription>
+  </Box>
+  <CloseButton position='absolute' right='8px' top='8px' />
+</Alert>
+
+*/
