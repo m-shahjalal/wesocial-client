@@ -22,7 +22,7 @@ const NavBar = () => {
 
                         <Stack direction={'row'} spacing={7}>
 
-                            <NavLink to="/">
+                            <NavLink  to="/">
                                 <Button>
                                 <AiOutlineHome/>
                                 </Button>           

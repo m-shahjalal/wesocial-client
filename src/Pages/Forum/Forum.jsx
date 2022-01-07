@@ -29,7 +29,7 @@ const Forum = () => {
     const { register, handleSubmit , reset} = useForm();
     const onSubmit = data => {
         console.log(data)
-        axios.post('http://localhost:5000/communityPosts', data)
+        axios.post('https://serene-beyond-56628.herokuapp.com/communityPosts', data)
         .then(res => {
             if (res.data.insertedId) {
                 swal("Well done!", "Your article has been published successfully!", "success");
@@ -46,7 +46,7 @@ const Forum = () => {
     const [communityPosts, setCommunityPosts] = useState([])
 
     useEffect(()=>{
-        fetch("http://localhost:5000/communityPosts")
+        fetch("https://serene-beyond-56628.herokuapp.com/communityPosts")
         .then(res => res.json())
         .then(data => setCommunityPosts(data))
     },[communityPosts])

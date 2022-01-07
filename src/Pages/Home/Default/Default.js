@@ -23,7 +23,7 @@ const Default = () => {
     const { register, handleSubmit , reset} = useForm();
     const onSubmit = data => {
         console.log(data)
-        axios.post('http://localhost:5000/userStatus', data)
+        axios.post('https://serene-beyond-56628.herokuapp.com/userStatus', data)
         .then(res => {
             if (res.data.insertedId) {
                 swal("Well done!", "Your article has been published successfully!", "success");
@@ -40,7 +40,7 @@ const Default = () => {
     const [userStatuses, setUserStatuses] = useState([])
 
     useEffect(()=>{
-        fetch("http://localhost:5000/userStatus")
+        fetch("https://serene-beyond-56628.herokuapp.com/userStatus")
         .then(res => res.json())
         .then(data => setUserStatuses(data))
     },[userStatuses])

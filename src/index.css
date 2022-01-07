@@ -13,5 +13,8 @@ code {
     monospace;
 }
 .active{
-  background-color: blueviolet;
+  /* background-color: blue; */
+  border-radius: 10px;
+  color: rgb(66, 66, 255);
+  border: 2px solid rgb(58, 58, 255);
 }
