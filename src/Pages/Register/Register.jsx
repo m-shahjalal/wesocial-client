@@ -38,7 +38,7 @@ const Register = () => {
 		setValue({ ...value, [e.target.name]: e.target.value });
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmitData = (e) => {
 		e.preventDefault();
 		value.email && value.password && dispatch(registerUser(value));
 	};
@@ -78,7 +78,7 @@ const Register = () => {
 								{register.error}
 							</Text>
 						)}
-						<Stack as='form' onSubmit={handleSubmit} spacing={4}>
+						<Stack as='form' onSubmit={handleSubmitData} spacing={4}>
 							<HStack>
 								<FormControl id='firstName' isRequired>
 									<FormLabel>First Name</FormLabel>

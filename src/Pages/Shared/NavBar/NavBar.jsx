@@ -8,10 +8,12 @@ import { GrGraphQl } from "react-icons/gr";
 import { AiOutlineHome } from "react-icons/ai";
 import { BiMessageRounded } from "react-icons/bi";
 import { Link, NavLink } from 'react-router-dom';
+import useFirebase from '../../../hooks/useFirebase';
 
 
 const NavBar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
+    const {userId, logOut} = useFirebase();
     return (
         <>
             <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
@@ -51,7 +53,7 @@ const NavBar = () => {
                                     minW={0}>
                                     <Avatar
                                         size={'sm'}
-                                        src={'https://avatars.dicebear.com/api/male/username.svg'}
+                                        src={userId.photoURL}
                                     />
                                 </MenuButton>
                                 <MenuList alignItems={'center'}>
@@ -59,7 +61,7 @@ const NavBar = () => {
                                     <Center>
                                         <Avatar
                                             size={'2xl'}
-                                            src={'https://avatars.dicebear.com/api/male/username.svg'}
+                                            src={userId.photoURL}
                                         />
                                     </Center>
                                     <br />
@@ -73,7 +75,7 @@ const NavBar = () => {
 
                                     </Link>
                                     <MenuItem>Account Settings</MenuItem>
-                                    <MenuItem>Logout</MenuItem>
+                                    {userId.email ?<MenuItem onClick={logOut}>Logout</MenuItem> : <Link to="/login"><MenuItem>Login</MenuItem></Link>}
                                 </MenuList>
                             </Menu>
                         </Stack>

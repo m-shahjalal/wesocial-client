@@ -23,6 +23,9 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub, FaFacebook } from "react-icons/fa";
 import './Login.css'
 import useFirebase from '../../hooks/useFirebase';
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import swal from 'sweetalert';
 
 
 const Login = () => {
@@ -34,7 +37,7 @@ const Login = () => {
 		setValue({ ...value, [e.target.name]: e.target.value });
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmitData = (e) => {
 		e.preventDefault();
 		value.email && value.password && dispatch(fetchUser(value));
 	};
@@ -43,6 +46,9 @@ const Login = () => {
 		() => user.data && navigate('/', { replace: true }),
 		[navigate, user.data]
 	);
+
+
+
 
 	/* ______________________________________________________________________ */
 	/* Google log in */
@@ -59,6 +65,8 @@ const Login = () => {
     };
 	console.log(userId);
 	/* ______________________________________________________________________ */
+
+
 
 	/* Conditional Alert */
 	const [startAlert, setStartAlert] = useState(false);
@@ -90,7 +98,7 @@ const Login = () => {
 					boxShadow={'lg'}
 					p={8}>
 						{user.error && <Text align='center' mb='6' color='red.400'>{user.error}</Text>}
-					<Stack as='form' onSubmit={handleSubmit} spacing={4}>
+					<Stack as='form' onSubmit={handleSubmitData} spacing={4}>
 						<FormControl id='email'>
 							<FormLabel>Email address</FormLabel>
 							<Input
@@ -145,6 +153,8 @@ const Login = () => {
 						<Button onClick={googleSignIn} className='auth-log' boxShadow={'lg'} bg={'white'}><FcGoogle/></Button>
 						<Button onClick={startAlertComponent} className='auth-log' boxShadow={'lg'} bg={'white'}><FaGithub color={'black'}/></Button>
 						<Button onClick={startAlertComponent} className='auth-log' boxShadow={'lg'} bg={'white'} color={'blue.400'}><FaFacebook/></Button>
+						{/* With default value */}
+
 					</Flex>
 				</Box>
 			</Stack>
@@ -154,18 +164,3 @@ const Login = () => {
 
 export default Login;
 
-
-/* 
-<Alert status='success'>
-  <AlertIcon />
-  <Box flex='1'>
-    <AlertTitle>Success!</AlertTitle>
-    <AlertDescription display='block'>
-      Your application has been received. We will review your application and
-      respond within the next 48 hours.
-    </AlertDescription>
-  </Box>
-  <CloseButton position='absolute' right='8px' top='8px' />
-</Alert>
-
-*/

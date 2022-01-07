@@ -4,6 +4,7 @@ import Forum from '../Pages/Forum/Forum';
 import RepliesDetails from '../Pages/Forum/RepliesDetails';
 import Home from '../Pages/Home/Home';
 import Login from '../Pages/Login/Login';
+import UserData from '../Pages/Login/UserData';
 import ProfileContent from '../Pages/Profile/ProfileContent';
 import Register from '../Pages/Register/Register';
 import Footer from '../Pages/Shared/Footer/Footer';
@@ -23,6 +24,7 @@ const Routers = () => {
 					<Route path='forum' element={<Forum />} />
 					<Route path='forum' element={<Forum />} />
 					<Route path='profile' element={<ProfileContent />} />
+					<Route path='userData' element={<UserData />} />
 					<Route path={`/forum/replies/:articleID`} element={<RepliesDetails />} />
 				</Routes>
 				<Footer></Footer>
