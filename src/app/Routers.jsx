@@ -12,17 +12,18 @@ import ProfileContent from '../Pages/Profile/ProfileContent';
 import Register from '../Pages/Register/Register';
 import Footer from '../Pages/Shared/Footer/Footer';
 import NavBar from '../Pages/Shared/NavBar/NavBar';
-import AuthProvider from '../contexts/AuthProvider';
 
 const Routers = () => {
 	return (
 		// <AuthProvider>
 		<Container>
-
 			<BrowserRouter>
 				<NavBar></NavBar>
 				<Routes>
-					<Route index element={<Home />} />
+					<Route path='signUp' element={<Signup />} />
+					<Route path='signIn' element={<SignIn />} />
+					<Route path='/' element={<Home />} />
+					<Route path='/home' element={<Home />} />
 					<Route path='login' element={<Login />} />
 					<Route path='seeReplies/:statusId' element={<SeeReplies />} />
 					<Route path='register' element={<Register />} />
@@ -31,9 +32,8 @@ const Routers = () => {
 					<Route path='forum' element={<Forum />} />
 					<Route path='profile' element={<ProfileContent />} />
 					<Route path='userData' element={<UserData />} />
-					<Route path='signUp' element={<Signup />} />
-					<Route path='signIn' element={<SignIn />} />
 					<Route path={`/forum/replies/:articleID`} element={<RepliesDetails />} />
+
 				</Routes>
 				<Footer></Footer>
 			</BrowserRouter>
