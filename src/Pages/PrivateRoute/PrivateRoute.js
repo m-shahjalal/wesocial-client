@@ -1,3 +1,4 @@
+import { Progress } from '@chakra-ui/react';
 import React from 'react';
 import { Redirect, Route } from 'react-router';
 import useAuth from '../../../hooks/useAuth';
@@ -9,10 +10,10 @@ const PrivateRoute = ({ children, ...rest }) => {
     if (isLoading) {
         return <div className='text-center'>
             <div class="text-center">
-  <div class="spinner-border" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-</div>
+            <div class="spinner-border" role="status">
+            <Progress size='xs' isIndeterminate />
+            </div>
+            </div>
         </div>
     }
     // private route

@@ -5,10 +5,28 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useParams } from 'react-router-dom';
 import swal from 'sweetalert';
-import "./details.css"
+import useFirebase from '../../../hooks/useFirebase';
+// import "./details.css"
 
-const RepliesDetails = () => {
-    const {articleID} = useParams();
+
+/* 
+
+Special Message :
+
+*   {here are 2 state
+    e.g. communityPost and communityPostsReplies
+    their real name is
+    userStatus and userStatusReply.}
+
+*   articleId is statusId..
+
+
+*/
+
+const SeeReplies = () => {
+    const {statusId} = useParams();
+    const {userId} = useFirebase();
+    const user = userId.email;
 
     /* :::::::::::::::::::::::::::::::
         Post Replies
@@ -16,7 +34,7 @@ const RepliesDetails = () => {
     const { register, handleSubmit , reset} = useForm();
     const onSubmit = data => {
         console.log(data)
-        axios.post('https://serene-beyond-56628.herokuapp.com/communityPostsReply', data)
+        axios.post('https://serene-beyond-56628.herokuapp.com/userStatusReplies', data)
         .then(res => {
             if (res.data.insertedId) {
                 swal("Well done!", "Your reply submitted successfully!", "success");
@@ -27,14 +45,25 @@ const RepliesDetails = () => {
 
 
     /* -------------------
-    Fetch single Article
+    Fetch Status
     ---------------------*/
     const [communityPosts, setCommunityPosts] = useState([])
 
     useEffect(()=>{
-        fetch("https://serene-beyond-56628.herokuapp.com/communityPosts")
+        fetch("https://serene-beyond-56628.herokuapp.com/userStatus")
         .then(res => res.json())
         .then(data => setCommunityPosts(data))
+    },[communityPosts])
+
+    /* -------------------
+    Fetch UserList
+    ---------------------*/
+    const [userList, setUserList] = useState([])
+
+    useEffect(()=>{
+        fetch("https://serene-beyond-56628.herokuapp.com/userList")
+        .then(res => res.json())
+        .then(data => setUserList(data))
     },[communityPosts])
 
 
@@ -45,7 +74,7 @@ const RepliesDetails = () => {
     
 
     useEffect(()=>{
-        fetch("https://serene-beyond-56628.herokuapp.com/communityPostsReply")
+        fetch("https://serene-beyond-56628.herokuapp.com/userStatusReplies")
         .then(res => res.json())
         .then(data => setCommunityPostsReplies(data))
     },[communityPostsReplies]);
@@ -57,7 +86,7 @@ const RepliesDetails = () => {
         <section className='reply-container'>
             <div className='reply-details'>
                 {communityPosts.map(communityPost =>
-                communityPost._id === articleID ?
+                communityPost._id === statusId ?
                     <section>
                         <div style={{backgroundColor:"#f3f6f4", borderBottom:"0.5px solid black", padding:"15px"}} className=''>
                         <div style={{display:"flex", alignItems:"center"}}>
@@ -99,27 +128,29 @@ const RepliesDetails = () => {
                     
                     )}
                     {/* Comment input */}
-                    <form onSubmit={handleSubmit(onSubmit)} >
-                    <div style={{backgroundColor:"rgb(243 246 244)", padding:"15px"}}>
-                        <div style={{display:"flex", alignItems:"center"}}> 
-
-                        <WrapItem>
-                            <Avatar name='Image' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAsK6oIKzeSCKiqpjv5cuoC4ZC_hJ0FxNkvQ&usqp=CAU' />
-                        </WrapItem>
-
-                        &nbsp;
-
-                        <Input  placeholder='Write a comment...' {...register("reply")} style={{backgroundColor:"#e2e8f0", width:"100%", borderRadius:"30px"}} size='md' />
-                        <input type="text" name="" {...register("articleId")} style={{display:"none"}} value={articleID} id="" />
-                        <input type="text" name="" {...register("commentId")} style={{display:"none"}} value={"comment kora id ta"} id="" />
-
-                        &nbsp;&nbsp;&nbsp;
-                        <Button type="submit" style={{borderRadius:"30px", padding:"0 30px"}} colorScheme='teal' size='md'>
-                            Submit
-                        </Button>
+                    {
+                        userList.map(userLi => userLi.email === userId.email ? <form onSubmit={handleSubmit(onSubmit)} >
+                        <div style={{backgroundColor:"rgb(243 246 244)", padding:"15px"}}>
+                            <div style={{display:"flex", alignItems:"center"}}> 
+    
+                            <WrapItem>
+                                <Avatar name='Image' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAsK6oIKzeSCKiqpjv5cuoC4ZC_hJ0FxNkvQ&usqp=CAU' />
+                            </WrapItem>
+    
+                            &nbsp;
+    
+                            <Input  placeholder='Write a comment...' {...register("reply")} style={{backgroundColor:"#e2e8f0", width:"100%", borderRadius:"30px"}} size='md' />
+                            <input type="text" name="" {...register("articleId")} style={{display:"none"}} value={statusId} id="" />
+                            <input type="text" name="" {...register("commentedUserId")} style={{width:"1px"}} defaultValue={userLi.email} id="" />
+    
+                            &nbsp;&nbsp;&nbsp;
+                            <Button type="submit" style={{borderRadius:"30px", padding:"0 30px"}} colorScheme='teal' size='md'>
+                                Submit
+                            </Button>
+                            </div>
                         </div>
-                    </div>
-                    </form>
+                        </form> : null)
+                    }
                     
                     
                 </div>
@@ -130,7 +161,7 @@ const RepliesDetails = () => {
                     <div className='reply-details'>
 
             {communityPostsReplies.map(communityPostsReply =>
-            communityPostsReply.articleId === articleID ?
+            communityPostsReply.articleId === statusId ?
             <section>
 
                 {}
@@ -169,4 +200,9 @@ const RepliesDetails = () => {
     );
 };
 
-export default RepliesDetails;
+export default SeeReplies;
+
+/* 
+
+
+*/

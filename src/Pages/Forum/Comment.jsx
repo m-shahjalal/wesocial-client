@@ -13,7 +13,7 @@ const Comment = (props) => {
         const { register, handleSubmit , reset} = useForm();
         const onSubmit = data => {
             console.log(data)
-            axios.post('http://localhost:5000/communityPostsReply', data)
+            axios.post('https://serene-beyond-56628.herokuapp.com/communityPostsReply', data)
             .then(res => {
                 if (res.data.insertedId) {
                     swal("Well done!", "Your reply submitted successfully!", "success");

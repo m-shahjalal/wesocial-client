@@ -66,7 +66,11 @@ const NavBar = () => {
                                     </Center>
                                     <br />
                                     <Center>
-                                        <p>Username</p>
+                                        <p>{userId.displayName}</p>
+                                        
+                                    </Center>
+                                    <Center>
+                                    <p>{userId.email}</p>
                                     </Center>
                                     <br />
                                     <MenuDivider />
@@ -75,7 +79,7 @@ const NavBar = () => {
 
                                     </Link>
                                     <MenuItem>Account Settings</MenuItem>
-                                    {userId.email ?<MenuItem onClick={logOut}>Logout</MenuItem> : <Link to="/login"><MenuItem>Login</MenuItem></Link>}
+                                    {userId.email ?<MenuItem onClick={logOut}>Logout</MenuItem> : <Link to="/SignIn"><MenuItem>Login</MenuItem></Link>}
                                 </MenuList>
                             </Menu>
                         </Stack>

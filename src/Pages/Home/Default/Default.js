@@ -11,6 +11,8 @@ import { useForm } from "react-hook-form";
 import axios from 'axios';
 import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
+import useFirebase from '../../../hooks/useFirebase';
+import DefaultComment from './DefaultComment';
 
 
 
@@ -18,6 +20,8 @@ import { Link } from 'react-router-dom';
 
 
 const Default = () => {
+    const {userId} = useFirebase();
+    const user = userId.email;
 
     /* Status Post Method */
     const { register, handleSubmit , reset} = useForm();
@@ -64,7 +68,7 @@ const Default = () => {
 
                     <div className='forum-display-top'>
                         <WrapItem>
-                            <Avatar name='Image' src='https://static.remove.bg/remove-bg-web/6cc620ebfb5922c21227f533a09d892abd65defa/assets/start_remove-c851bdf8d3127a24e2d137a55b1b427378cd17385b01aec6e59d5d4b5f39d2ec.png' />
+                            <Avatar name='Image' src={userId.photoURL} />
                         </WrapItem>
                         <Input placeholder='What is your mind ?' style={{backgroundColor:"white", border:"none", borderRadius:"20px"}} onClick={onOpen}/>
 
@@ -83,15 +87,16 @@ const Default = () => {
                                 <form onSubmit={handleSubmit(onSubmit)}>
                                     <div className='post-modal'>
                                         <WrapItem>
-                                            <Avatar name='Image' src='https://static.remove.bg/remove-bg-web/6cc620ebfb5922c21227f533a09d892abd65defa/assets/start_remove-c851bdf8d3127a24e2d137a55b1b427378cd17385b01aec6e59d5d4b5f39d2ec.png' />
+                                            <Avatar name='Image' src={userId.photoURL} />
                                         </WrapItem>
                                         <div className='post-modal-name'>
-                                            <p>My Name</p>
-                                            <p><button style={{padding:"2px 10px", borderRadius:"5px"}} type="button" className='community-btn'>Community Post</button></p>
+                                            <p className='fw-bold'>{userId.displayName}</p>
+                                            <p><button style={{padding:"2px 10px", borderRadius:"5px"}} type="button" className='community-btn'>User Status</button></p>
                                         </div>
                                     </div>
                                     <input type="text" name="" {...register("time")} style={{display:"none"}} value={now} id="" />
                                     <Textarea {...register("article")} style={{border:"none", marginTop:"15px", minHeight:"180px"}} variant='unstyled' placeholder='What on your mind Mr/Mrs' />
+                                    <input type="text" name="" {...register("postedUserId")} style={{width:"1px"}} value={user} id="" />
                                     <div className='top-btn' style={{border:"1px solid #e2e8f0", padding:"10px", borderRadius:"8px"}}>
                                         <button>Add to your post</button>
                                         <span><FiImage/></span>
@@ -174,7 +179,7 @@ const Default = () => {
 				</div>
 
 				{/* ----------------------
-                    Community Posts 
+                    User Status 
                 -------------------------*/}
                 {userStatuses.map(userStatus =>
                 <section>
@@ -214,13 +219,15 @@ const Default = () => {
                     
                     &nbsp;&nbsp;&nbsp;&nbsp; <span className='dynamic-btn-hovering'><StarIcon/></span>&nbsp;&nbsp;&nbsp;&nbsp;
 
-                    <span className='dynamic-btn-hovering'><Link to={`replies/${userStatus._id}`}>See replies</Link></span>
+                    <span className='dynamic-btn-hovering'><Link to={`/seeReplies/${userStatus._id}`}>See replies</Link></span>
 
                     &nbsp;&nbsp;&nbsp;&nbsp; <span>{userStatus.time}</span></p>
                     
                     </Text>
+                    <DefaultComment key={userStatus._id} statusId={userStatus._id}></DefaultComment>
                 </div>
                 <br />
+                
                 </section>)}
 
 

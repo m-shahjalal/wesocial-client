@@ -1,6 +1,8 @@
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut  } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged , signOut, signInWithPopup, GoogleAuthProvider,updateProfile} from "firebase/auth";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 import initializationAuthentication from "../Pages/firebase/firebase.init";
 
 initializationAuthentication();
@@ -9,7 +11,55 @@ const useFirebase = () => {
     const [userId, setUsers] = useState({})
     const [error, setError] = useState("")
     const [isLoading, setIsLoading] = useState(true);
+    const [name, setName] = useState("");
     const auth = getAuth();
+
+    const history = useNavigate();
+
+    const handleNameChange = e => {
+        setName(e.target.value)
+    }
+
+
+    /* Register via Email */
+    const handleUserRegister = (email, password) => {
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((result) => {
+                handleUpdateUser()
+                setUsers(result.user)
+                console.log(email, password);
+                window.location.replace("http://localhost:3000/userData");
+            })
+    }
+
+    /* log in email */
+    const handleUserLogIn = (email, password) => {
+        signInWithEmailAndPassword(auth, email, password)
+            .then((result) => {
+                setUsers(result.user)
+                // history.replace('/')
+                swal("Good job!", "You clicked the button!", "success");
+            }).catch((error) => {
+                setError(error)
+                // console.log(error.message);
+            });
+    }
+
+    /* update user  */
+    const handleUpdateUser = ()=>{
+        updateProfile(auth.currentUser, {
+            displayName: name
+            }).then(() => {
+
+            }).catch((error) => {
+
+            });
+    }
+    
+
+
+
+
 
     const googleProvider = new GoogleAuthProvider();
 
@@ -43,7 +93,10 @@ const useFirebase = () => {
         error,
         handleGoogleLogIn,
         logOut,
-        isLoading
+        isLoading,
+        handleNameChange,
+        handleUserRegister,
+        handleUserLogIn
     }
 };
 
