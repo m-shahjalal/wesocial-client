@@ -38,7 +38,7 @@ const useFirebase = () => {
             .then((result) => {
                 setUsers(result.user)
                 // history.replace('/')
-                swal("Good job!", "You clicked the button!", "success");
+                window.location.replace("http://localhost:3000/");
             }).catch((error) => {
                 setError(error)
                 // console.log(error.message);

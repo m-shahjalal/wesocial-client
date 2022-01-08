@@ -1,6 +1,6 @@
 import { Avatar, Button, Input, WrapItem } from '@chakra-ui/react';
 import axios from 'axios';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import swal from 'sweetalert';
 import useFirebase from '../../../hooks/useFirebase';
@@ -22,6 +22,8 @@ const DefaultComment = (props) => {
             }
         })
     };
+
+    
 
     return (
         <div className='mt-3'>

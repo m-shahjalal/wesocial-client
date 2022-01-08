@@ -38,7 +38,7 @@ const UserData = () => {
                 </Alert>
                     <div>
                         <input className='user-data' type="text" mb={'2'} name="" {...register("displayName")}  placeholder='Your name' required/> <br />
-                        <input className='user-data' type="text" mb={'2'} name="" {...register("email")} value={userId.email}  required/><br />
+                        <input className='user-data' type="text" mb={'2'} name="" {...register("email")} value={userId.email} /><br />
                         <input className='user-data' type="text" mb={'2'} name="" {...register("Designation")}  placeholder='Designation'  required/><br />
                         <input className='user-data' type="text" mb={'2'} name="" {...register("Address")} placeholder='Address'  required/><br />
                         <input className='user-data' type="text" mb={'0'} name="" {...register("Mobile")} placeholder='Mobile'  required/><br />
