@@ -4,7 +4,7 @@ import { Redirect, Route } from 'react-router';
 import useAuth from '../../../hooks/useAuth';
 
 const PrivateRoute = ({ children, ...rest }) => {
-    const { user, isLoading } = useAuth();
+    const { userId, isLoading } = useAuth();
 
     // loader for not logout on reload
     if (isLoading) {
@@ -20,7 +20,7 @@ const PrivateRoute = ({ children, ...rest }) => {
     return (
         <Route
             {...rest}
-            render={({ location }) => user.email ? children : <Redirect
+            render={({ location }) => userId.email ? children : <Redirect
                 to={{
                     pathname: "/login",
                     state: { from: location }
