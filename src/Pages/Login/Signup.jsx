@@ -5,7 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 import { BsFacebook } from "react-icons/bs";
 import { GrTwitter } from "react-icons/gr";
 import { IoLogoLinkedin } from "react-icons/io";
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, CloseButton } from '@chakra-ui/react';
 
 const Signup = () => {
@@ -72,11 +72,11 @@ const Signup = () => {
                         <form onSubmit={handleSubmit} class="card px-5 py-5"> <span class="circle"><i class="fa fa-check"></i></span>
                             <h5 class="mt-3">Join over 25 million community from around the globe</h5> <small class="mt-2 text-muted">Master the languages of the web: HTML, CSS and javascript. This path will prepare you to build basic websites and then build interactive web apps</small>
 
-                            <div class="form-input"> <i class="fa fa-envelope"></i> <input onBlur={handleEmailChange} type="text" class="form-control text-white" placeholder="Email address" required/> </div>
+                            <div class="form-input"> <i class="fa fa-envelope"></i> <input onBlur={handleEmailChange} type="text" class="form-control text-dark" placeholder="Email address" required/> </div>
 
-                            <div class="form-input"> <i class="fa fa-user"></i> <input onBlur={handleNameChange} type="text" class="form-control text-white" placeholder="User name" required/> </div>
+                            <div class="form-input"> <i class="fa fa-user"></i> <input onBlur={handleNameChange} type="text" class="form-control text-dark" placeholder="User name" required/> </div>
 
-                            <div class="form-input"> <i class="fa fa-lock"></i> <input onBlur={handlePasswordChange} type="text" class="form-control text-white" placeholder="password" required/> </div>
+                            <div class="form-input"> <i class="fa fa-lock"></i> <input onBlur={handlePasswordChange} type="text" class="form-control text-dark" placeholder="password" required/> </div>
 
                             <div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" required/> <label class="form-check-label" for="flexCheckChecked"> I agree all the statements </label> </div> 
 
@@ -102,8 +102,8 @@ const Signup = () => {
                             }
 
 
-                            <div class="d-flex justify-content-center mt-4"> <span onClick={googleSignIn} class="social"><FcGoogle/></span> <span class="social" onClick={startAlertComponent}><BsFacebook/></span> <span onClick={startAlertComponent} class="social"><GrTwitter/></span> <span class="social" onClick={startAlertComponent}><IoLogoLinkedin/></span> </div>
-                            <div class="text-center mt-4"> <span>Already a member?</span> <a href="#" class="text-decoration-none">Login</a> </div>
+                            <div class="d-flex justify-content-center mt-4"> <span onClick={googleSignIn} class="social"><FcGoogle/></span> <span class="social text-primary" onClick={startAlertComponent}><BsFacebook/></span> <span onClick={startAlertComponent} class="social text-info"><GrTwitter/></span> <span class="social text-primary" onClick={startAlertComponent}><IoLogoLinkedin/></span> </div>
+                            <div class="text-center mt-4"> <span>Already a member?</span> <Link to='/SignIn'><a href="#" class="text-decoration-none">Login</a></Link> </div>
                         </form>
                     </div>
                 </div>

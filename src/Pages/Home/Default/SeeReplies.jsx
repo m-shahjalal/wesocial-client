@@ -64,7 +64,7 @@ const SeeReplies = () => {
         fetch("https://serene-beyond-56628.herokuapp.com/userList")
         .then(res => res.json())
         .then(data => setUserList(data))
-    },[communityPosts])
+    },[userList])
 
 
     /* _________________
@@ -134,7 +134,7 @@ const SeeReplies = () => {
                             <div style={{display:"flex", alignItems:"center"}}> 
     
                             <WrapItem>
-                                <Avatar name='Image' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAsK6oIKzeSCKiqpjv5cuoC4ZC_hJ0FxNkvQ&usqp=CAU' />
+                                <Avatar name='Image' src={userLi.photoURL} />
                             </WrapItem>
     
                             &nbsp;
@@ -164,20 +164,20 @@ const SeeReplies = () => {
             communityPostsReply.articleId === statusId ?
             <section>
 
-                {}
-                <div style={{backgroundColor:"#f3f6f4", borderBottom:"0.5px solid black", paddingRight:"80px"}} className='forum-display'>
+
+                {userList.map(userLi => userLi.email === communityPostsReply.commentedUserId ? <div style={{backgroundColor:"#f3f6f4", borderBottom:"0.5px solid black", paddingRight:"80px"}} className='forum-display'>
                     <Menu>
                         {({ isOpen }) => (
                             <>
                             <MenuButton isActive={isOpen}>
                                 <WrapItem>
-                                    <Avatar name='Image' src='https://reazour-rahaman.netlify.app/static/media/MyPgoto.a3d16b45.png' />
+                                    <Avatar name='Image' src={userLi.photoURL} />
                                 </WrapItem>
                             </MenuButton>
                             <MenuList color="black">
-                                <MenuItem>Profile Name</MenuItem>
-                                <MenuItem>Profession Name</MenuItem>
-                                <MenuItem>Country Name</MenuItem>
+                                <MenuItem>{userLi.displayName}</MenuItem>
+                                <MenuItem>{userLi.Address}</MenuItem>
+                                <MenuItem>{userLi.Designation}</MenuItem>
                                 <MenuItem onClick={() => alert('This Feature is implementing soon')}>View Profile</MenuItem>
                             </MenuList>
                             </>
@@ -191,7 +191,7 @@ const SeeReplies = () => {
                             </small>                  
                         </Text>
                     </div>
-                </div>
+                </div> : null)}
             </section> : null)}
         </div>
         </section>

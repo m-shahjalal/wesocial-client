@@ -1,7 +1,5 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap"); */
-
 body {
-    font-family: "Poppins", sans-serif;
+    /* font-family: "Poppins", sans-serif; */
     font-weight: 300
 }
 
@@ -9,8 +7,8 @@ body {
 .card {
     border: none;
     padding: 20px;
-    background-color: #1c1e21;
-    color: #fff
+    background-color: #f7fafc;
+    color: black
 }
 
 .circle {
@@ -40,15 +38,15 @@ body {
 
 .form-control {
     height: 50px;
-    background-color: #1c1e21;
+    background-color: #e8f0fe;
+    color:black;
     text-indent: 24px;
     font-size: 15px
 }
 
 .form-control:focus {
-    background-color: #25272a;
     box-shadow: none;
-    color: #fff;
+    color: rgb(0, 0, 0);
     border-color: #4f63e7
 }
 
@@ -75,6 +73,6 @@ body {
 }
 
 .social:hover {
-    background-color: #0d6efd;
-    border-color: #0d6efd
+    background-color: #edf2f7;
+    border-color: white
 }

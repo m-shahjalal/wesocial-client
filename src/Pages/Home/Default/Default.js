@@ -82,9 +82,9 @@ const Default = () => {
 
                 <div style={{backgroundColor:"#f3f6f4", marginBottom:"20px"}}>
 
-                    <div className='forum-display-top'>
+                    {userLists.slice(0, 1).map(userList => <div className='forum-display-top'>
                         <WrapItem>
-                            <Avatar name='Image' src={userId.photoURL} />
+                            <Avatar name='Image' src={userId.photoURL? userId.photoURL: userList.photoURL} />
                         </WrapItem>
                         <Input placeholder='What is your mind ?' style={{backgroundColor:"white", border:"none", borderRadius:"20px"}} onClick={onOpen}/>
 
@@ -103,7 +103,7 @@ const Default = () => {
                                 <form onSubmit={handleSubmit(onSubmit)}>
                                     <div className='post-modal'>
                                         <WrapItem>
-                                            <Avatar name='Image' src={userId.photoURL} />
+                                            <Avatar name='Image' src={userId.photoURL? userId.photoURL: userList.photoURL} />
                                         </WrapItem>
                                         <div className='post-modal-name'>
                                             <p className='fw-bold'>{userId.displayName}</p>
@@ -135,7 +135,7 @@ const Default = () => {
                         {/* ::::::::::::::::::::::
                                 Modal Ended
                         ::::::::::::::::::::::::::::*/}
-					</div>
+					</div>)}
 					<hr />
 					<div
 						style={{ color: 'black' }}
