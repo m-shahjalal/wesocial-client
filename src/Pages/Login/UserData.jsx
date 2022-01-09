@@ -47,6 +47,19 @@ const UserData = () => {
                         Everything is correct!
                     </Checkbox>
                 </div>
+=======
+                    <div>
+                    <input className='user-data' type="text" mb={'2'} name="" {...register("displayName")} placeholder='Your name' required /> <br />
+                    <input className='user-data' type="text" mb={'2'} name="" {...register("email")} value={userId.email} /><br />
+                    <input className='user-data' type="text" mb={'2'} name="" {...register("Designation")} placeholder='Designation' required /><br />
+                    <input className='user-data' type="text" mb={'2'} name="" {...register("Address")} placeholder='Address' required /><br />
+                    <input className='user-data' type="text" mb={'0'} name="" {...register("Mobile")} placeholder='Mobile' required /><br />
+                    <input type="text" className='user-data' mb={'0'} name="" {...register("photoURL")} placeholder='Your image URL' id="" /><br />
+                    <Checkbox mb={'4'} colorScheme='green' defaultIsChecked >
+                        Everything is correct!
+                    </Checkbox>
+                </div>
+>>>>>>> 9058d6a264f9f173492b6ba50a18bca093e258c4
 
                 <div style={{ display: "flex", justifyContent: "end" }}>
                     <Button type='submit' colorScheme='teal' size='md'>

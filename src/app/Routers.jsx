@@ -8,6 +8,7 @@ import Login from '../Pages/Login/Login';
 import SignIn from '../Pages/Login/SignIn';
 import Signup from '../Pages/Login/Signup';
 import UserData from '../Pages/Login/UserData';
+import PrivateRoute from '../Pages/PrivateRoute/PrivateRoute';
 import ProfileContent from '../Pages/Profile/ProfileContent';
 import Register from '../Pages/Register/Register';
 import Footer from '../Pages/Shared/Footer/Footer';
@@ -15,14 +16,18 @@ import NavBar from '../Pages/Shared/NavBar/NavBar';
 
 const Routers = () => {
 	return (
-		// <AuthProvider>
+
 		<Container>
 			<BrowserRouter>
 				<NavBar></NavBar>
 				<Routes>
 					<Route path='signUp' element={<Signup />} />
 					<Route path='signIn' element={<SignIn />} />
-					<Route path='/' element={<Home />} />
+					<Route path='/' element={
+						<PrivateRoute>
+							<Home />
+						</PrivateRoute>
+					} />
 					<Route path='/home' element={<Home />} />
 					<Route path='login' element={<Login />} />
 					<Route path='seeReplies/:statusId' element={<SeeReplies />} />
@@ -38,7 +43,6 @@ const Routers = () => {
 				<Footer></Footer>
 			</BrowserRouter>
 		</Container>
-		// {/* </AuthProvider> */}
 	);
 };
 

@@ -49,6 +49,19 @@ const Default = () => {
         .then(data => setUserStatuses(data))
     },[userStatuses])
     
+    
+
+    /* -----------------------------
+    get user list
+    --------------------------------*/
+
+    const [userLists, setUserList] = useState([])
+
+    useEffect(()=>{
+        fetch("https://serene-beyond-56628.herokuapp.com/userList")
+        .then(res => res.json())
+        .then(data => setUserList(data))
+    },[userLists])
 
 
     /* Modal */
@@ -57,6 +70,9 @@ const Default = () => {
     /* Time */
     let myCurrentDate = new Date();
     let now = myCurrentDate.getFullYear()+'-'+(myCurrentDate.getMonth()+1)+'-'+myCurrentDate.getDate();
+
+    /* Common user URl */
+    const commonUSer = "https://cdn-icons.flaticon.com/png/128/1144/premium/1144760.png?token=exp=1641670623~hmac=64027eef207abc5c6750a40b0c0e33cf";
 
 
 
@@ -184,13 +200,14 @@ const Default = () => {
                 {userStatuses.map(userStatus =>
                 <section>
                     <div style={{backgroundColor:"#f3f6f4", padding:"15px"}}className='' >
+                    {userLists.slice(0, 1).map(userList =>
                     <aside style={{display:"flex", alignItems:"center"}}>
                         <Menu>
                             {({ isOpen }) => (
                                 <>
                                 <MenuButton className='profile-image-style' isActive={isOpen}>
                                     <WrapItem >
-                                        <Avatar  name='Image' src='https://static.remove.bg/remove-bg-web/6cc620ebfb5922c21227f533a09d892abd65defa/assets/start_remove-c851bdf8d3127a24e2d137a55b1b427378cd17385b01aec6e59d5d4b5f39d2ec.png' />
+                                        <Avatar className='bg-white'  name='Image' src={userStatus.postedUserId ===userList.email ? userList.photoURL : commonUSer} />
                                     </WrapItem>
                                 </MenuButton>
                                 <MenuList color="black">
@@ -204,10 +221,10 @@ const Default = () => {
                         </Menu>
                         &nbsp;&nbsp;&nbsp;
                         <div style={{color:"black"}}>
-                            <p >Reazour Rahaman</p>
+                            <p >{userStatus.postedUserId ===userList.email ? userList.displayName : "Anonymous"}</p>
                             <small style={{display:"flex", alignItems:"center"}}>{userStatus.time}&nbsp;&nbsp; <CheckCircleIcon style={{color:"blue"}}/></small>
                         </div>
-                    </aside>
+                    </aside>)}
                     &nbsp;
                     
                     <Text color='black' fontSize='md'>{userStatus.article}
