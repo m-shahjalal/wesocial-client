@@ -146,7 +146,7 @@ const Register = () => {
 										bg: 'blue.500',
 									}}>
 									{register.loading && (
-										<Spinner size='sm' style={{color:"red"}} mx={2} />
+										<Spinner size='sm' style={{ color: "red" }} mx={2} />
 									)}
 									Sign up
 								</Button>
