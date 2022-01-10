@@ -1,33 +1,20 @@
-
-import { Redirect, Route } from "react-router";
-import useAuth from "../hooks/useAuth";
-
-
-function PrivateRoute({ children, ...rest }) {
-    let {userId, isLoading} = useAuth();
-
-    if (isLoading) {
-        return <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
-        </div>
-    }
-    
+import { Container, Spinner } from '@chakra-ui/react';
+import { Navigate, useLocation } from 'react-router';
+import useAuth from '../hooks/useAuth';
+const Private = ({ children }) => {
+  let { isLoggedIn, loading } = useAuth();
+  let location = useLocation();
+  if (loading) {
     return (
-      <Route
-        {...rest}
-        render={({ location }) =>
-          userId.email ? (
-            children
-          ) : (
-            <Redirect
-              to={{
-                pathname: "/login",
-                state: { from: location }
-              }}
-            />
-          )
-        }
-      />
+      <Container>
+        <Spinner size='lg' mx={2} />
+      </Container>
     );
+  } else if (!isLoggedIn && loading === false) {
+    return <Navigate replace to='/login' state={{ from: location }} />;
+  } else {
+    return children;
   }
-export default PrivateRoute;
+};
+
+export default Private;
