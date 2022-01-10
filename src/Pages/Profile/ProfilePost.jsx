@@ -1,8 +1,9 @@
 import { Avatar, Button, Input, WrapItem } from '@chakra-ui/react';
 import axios from 'axios';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import swal from 'sweetalert';
+import useFirebase from '../../hooks/useFirebase';
 
 const ProfilePost = () => {
     /* :::::::::::::::::::::::::::::::
@@ -19,14 +20,24 @@ const ProfilePost = () => {
             }
         })
     };
+
+    const {userId} = useFirebase();
+
+    const [userLists, setUserList] = useState([])
+
+    useEffect(()=>{
+        fetch("https://serene-beyond-56628.herokuapp.com/userList")
+        .then(res => res.json())
+        .then(data => setUserList(data))
+    },[userLists])
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)} >
-                <div style={{backgroundColor:"rgb(243 246 244)", padding:"15px"}}>
+                {userLists.map(userList => userList.email === userId.email ?<div style={{backgroundColor:"rgb(243 246 244)", padding:"15px"}}>
                     <div style={{display:"flex", alignItems:"center"}}> 
 
                     <WrapItem>
-                        <Avatar name='Image' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAsK6oIKzeSCKiqpjv5cuoC4ZC_hJ0FxNkvQ&usqp=CAU' />
+                        <Avatar name='Image' src={userList.photoURL} />
                     </WrapItem>
 
                     &nbsp;
@@ -36,14 +47,19 @@ const ProfilePost = () => {
                     <input type="text" name="" {...register("commentId")} style={{display:"none"}} value={"comment kora id ta"} id="" />
 
                     &nbsp;&nbsp;&nbsp;
-                    <Button type="submit" style={{borderRadius:"30px", padding:"0 30px"}} colorScheme='teal' size='md'>
+                    <Button style={{borderRadius:"30px", padding:"0 30px"}} bg={'#151f21'}
+                        color={'white'} size='md'>
                         Submit
                     </Button>
                     </div>
-                </div>
+                </div>:null)}
             </form>
         </div>
     );
 };
 
 export default ProfilePost;
+/* 
+
+
+*/

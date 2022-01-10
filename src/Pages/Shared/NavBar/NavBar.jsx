@@ -31,7 +31,7 @@ const NavBar = () => {
     return (
         <>
             <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
-                {userLists.slice(0, 1).map( userList => <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+                {userLists.slice(0, 1).map( userList =>  <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
                     <Box><img width={40} src="https://cdn-icons-png.flaticon.com/128/831/831276.png" alt="" /></Box>
 
                     <Flex alignItems={'center'}>
@@ -67,7 +67,7 @@ const NavBar = () => {
                                     minW={0}>
                                     <Avatar
                                         size={'sm'}
-                                        src={userId.photoURL? userId.photoURL: userList.photoURL}
+                                        src={userList.photoURL}
                                     />
                                 </MenuButton>
                                 <MenuList alignItems={'center'}>
@@ -75,16 +75,15 @@ const NavBar = () => {
                                     <Center>
                                         <Avatar
                                             size={'2xl'}
-                                            src={userId.photoURL}
+                                            src={userList.photoURL}
                                         />
                                     </Center>
                                     <br />
                                     <Center>
-                                        <p>{userId.displayName}</p>
-                                        
+                                    <p>{userId.email}</p>
                                     </Center>
                                     <Center>
-                                    <p>{userId.email}</p>
+                                    <p>{userList.displayName}</p>
                                     </Center>
                                     <br />
                                     <MenuDivider />

@@ -28,7 +28,6 @@ const Routers = () => {
 					<Route path='register' element={<Register />} />
 					<Route path='teams' element={<Login />} />
 					<Route path='forum' element={<Forum />} />
-					<Route path='forum' element={<Forum />} />
 					<Route path='profile' element={<ProfileContent />} />
 					<Route path='userData' element={<UserData />} />
 					<Route path='signUp' element={<Signup />} />

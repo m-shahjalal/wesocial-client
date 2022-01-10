@@ -10,16 +10,29 @@ import {
     Button,
     useColorModeValue,
 } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 import useFirebase from '../../hooks/useFirebase';
+import ProfilePost from './ProfilePost';
 
 export default function UserProfile() {
-    const {userId} = useFirebase()
+    const {userId} = useFirebase();
+
+    const [userLists, setUserList] = useState([])
+
+    useEffect(()=>{
+        fetch("https://serene-beyond-56628.herokuapp.com/userList")
+        .then(res => res.json())
+        .then(data => setUserList(data))
+    },[userLists])
+
     return (
+        <section>
         <Center py={6}>
-            <Box
+            {userLists.map(userList => userList.email === userId.email ?<Box
                 maxW={'1000px'}
                 w={'full'}
-                bg={useColorModeValue('white', 'gray.800')}
+                // bg={useColorModeValue('white', 'gray.800')}
+                bg={'whiteAlpha.800'}
                 boxShadow={'2xl'}
                 rounded={'md'}
                 overflow={'hidden'}>
@@ -34,7 +47,7 @@ export default function UserProfile() {
                 <Flex justify={'center'} mt={-12}>
                     <Avatar
                         size={'xl'}
-                        src={userId.photoURL}
+                        src={userList.photoURL}
                         alt={'Author'}
                         css={{
                             border: '2px solid white',
@@ -43,11 +56,29 @@ export default function UserProfile() {
                 </Flex>
 
                 <Box p={6}>
-                    <Stack spacing={0} align={'center'} mb={5}>
-                        <Heading fontSize={'2xl'} fontWeight={500} fontFamily={'body'}>
-                            {userId.displayName}
+                    <Stack spacing={0} align={'center'}  mb={5}>
+                        {/* <Heading fontSize={'xl'} fontWeight={500}>
+                            {userList.displayName}
                         </Heading>
-                        <Text color={'gray.500'}>{userId.email}</Text>
+                        <Text fontSize={'sm'} color={'gray.500'}>Email: {userId.email}</Text>
+                        <Text fontSize={'sm'} color={'gray.500'}>Address: {userList.Address}</Text>
+                        <Text fontSize={'sm'} color={'gray.500'}>Designation: {userList.Designation}</Text>
+                        <Text fontSize={'sm'} color={'gray.500'}>Mobile: {userList.Mobile}</Text> */}
+
+                        <div class="list-group w-100">
+                            <button type="button" class="list-group-item list-group-item-action">
+                            <Heading fontSize={'xl'} fontWeight={500}>
+                            {userList.displayName}
+                            </Heading>
+                            </button>
+                            <button type="button" bg={'whiteAlpha.900'} class="list-group-item list-group-item-action">Email: &nbsp;&nbsp;{userId.email}</button>
+                            <button type="button" bg={'whiteAlpha.900'} class="list-group-item list-group-item-action">Address: &nbsp;&nbsp;{userList.Address}</button>
+                            <button type="button" bg={'whiteAlpha.900'} class="list-group-item list-group-item-action">Designation: &nbsp;&nbsp;{userList.Designation}</button>
+                            <button type="button" bg={'whiteAlpha.900'} class="list-group-item list-group-item-action">Mobile: &nbsp;&nbsp;{userList.Mobile}</button>
+                        </div>
+                        <div>
+                            
+                        </div>
                     </Stack>
 
                     <Stack direction={'row'} justify={'center'} spacing={6}>
@@ -68,7 +99,8 @@ export default function UserProfile() {
                     <Button
                         w={'full'}
                         mt={8}
-                        bg={useColorModeValue('#151f21', 'gray.900')}
+                        // bg={useColorModeValue('#151f21', 'gray.900')}
+                        bg={'#151f21'}
                         color={'white'}
                         rounded={'md'}
                         _hover={{
@@ -78,7 +110,10 @@ export default function UserProfile() {
                         Follow
                     </Button>
                 </Box>
-            </Box>
+            </Box>: null)}
+            
         </Center>
+        <ProfilePost></ProfilePost>
+        </section>
     );
 }

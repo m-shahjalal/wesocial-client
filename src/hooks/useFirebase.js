@@ -28,7 +28,7 @@ const useFirebase = () => {
                 handleUpdateUser()
                 setUsers(result.user)
                 console.log(email, password);
-                window.location.replace("http://localhost:3000/userData");
+                window.location.replace("https://binary-9cb5f.web.app/userData");
             })
     }
 
@@ -38,7 +38,7 @@ const useFirebase = () => {
             .then((result) => {
                 setUsers(result.user)
                 // history.replace('/')
-                window.location.replace("http://localhost:3000/");
+                window.location.replace("https://binary-9cb5f.web.app/");
             }).catch((error) => {
                 setError(error)
                 // console.log(error.message);
