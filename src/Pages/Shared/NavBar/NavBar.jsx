@@ -1,49 +1,59 @@
-import React from 'react';
-import { ReactNode } from 'react';
-import {
-    Box,
-    Flex,
-    Avatar,
-    Link,
-    Button,
-    Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
-    MenuDivider,
-    useDisclosure,
-    useColorModeValue,
-    Stack,
-    useColorMode,
-    Center,
-} from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import {
+    Avatar, Box, Button, Center, Flex, Menu,
+    MenuButton, MenuDivider, MenuItem, MenuList, Stack,
+    useColorMode, useColorModeValue
+} from '@chakra-ui/react';
+import { GrGraphQl } from "react-icons/gr";
+import { AiOutlineHome } from "react-icons/ai";
+import { BiMessageRounded } from "react-icons/bi";
+import { Link, NavLink } from 'react-router-dom';
+import useFirebase from '../../../hooks/useFirebase';
+import { useEffect, useState } from 'react';
 
-const NavLink = ({ children }: { children: ReactNode }) => (
-    <Link
-        px={2}
-        py={1}
-        rounded={'md'}
-        _hover={{
-            textDecoration: 'none',
-            bg: useColorModeValue('gray.200', 'gray.700'),
-        }}
-        href={'#'}>
-        {children}
-    </Link>
-);
 
 const NavBar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const { userId, logOut } = useFirebase();
+
+    /* -----------------------------
+get user list
+--------------------------------*/
+
+    const [userLists, setUserList] = useState([])
+
+    useEffect(() => {
+        fetch("https://serene-beyond-56628.herokuapp.com/userList")
+            .then(res => res.json())
+            .then(data => setUserList(data))
+    }, [userLists])
+
     return (
         <>
             <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
-                <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-                    <Box>WeSocial</Box>
+                {userLists.slice(0, 1).map(userList => <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+                    <Box><img width={100} src="https://i.ibb.co/kHcY0PH/WE-SOCIAL-LOGO-NO-BACKGROUND-1.png" alt="" /></Box>
 
                     <Flex alignItems={'center'}>
+
                         <Stack direction={'row'} spacing={7}>
+
+                            <NavLink to="/">
+                                <Button>
+                                    <AiOutlineHome />
+                                </Button>
+                            </NavLink>
+
+                            <Button>
+                                <BiMessageRounded />
+                            </Button>
+
+                            <NavLink to="/forum">
+                                <Button>
+                                    <GrGraphQl />
+                                </Button>
+                            </NavLink>
+
                             <Button onClick={toggleColorMode}>
                                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
                             </Button>
@@ -57,7 +67,7 @@ const NavBar = () => {
                                     minW={0}>
                                     <Avatar
                                         size={'sm'}
-                                        src={'https://avatars.dicebear.com/api/male/username.svg'}
+                                        src={userId.photoURL ? userId.photoURL : userList.photoURL}
                                     />
                                 </MenuButton>
                                 <MenuList alignItems={'center'}>
@@ -65,23 +75,30 @@ const NavBar = () => {
                                     <Center>
                                         <Avatar
                                             size={'2xl'}
-                                            src={'https://avatars.dicebear.com/api/male/username.svg'}
+                                            src={userId.photoURL}
                                         />
                                     </Center>
                                     <br />
                                     <Center>
-                                        <p>Username</p>
+                                        <p>{userId.displayName}</p>
+
+                                    </Center>
+                                    <Center>
+                                        <p>{userId.email}</p>
                                     </Center>
                                     <br />
                                     <MenuDivider />
-                                    <MenuItem>Your Servers</MenuItem>
+                                    <Link to='/profile'>
+                                        <MenuItem>View Profile</MenuItem>
+
+                                    </Link>
                                     <MenuItem>Account Settings</MenuItem>
-                                    <MenuItem>Logout</MenuItem>
+                                    {userId.email ? <MenuItem onClick={logOut}>Logout</MenuItem> : <Link to="/SignIn"><MenuItem>Login</MenuItem></Link>}
                                 </MenuList>
                             </Menu>
                         </Stack>
                     </Flex>
-                </Flex>
+                </Flex>)}
             </Box>
         </>
     );
