@@ -1,122 +1,58 @@
+
 import {
-    Flex,
-    Circle,
     Box,
-    Image,
-    Badge,
-    useColorModeValue,
-    Icon,
-    Tooltip,
+    Center,
+    Heading,
     Text,
+    Stack,
+    Avatar,
+    useColorModeValue,
 } from '@chakra-ui/react';
-import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
-import { FiHeart } from 'react-icons/fi';
 
-const data = {
-    isNew: true,
-    imageURL:
-        'https://images.unsplash.com/photo-1572635196237-14b3f281503f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=4600&q=80',
-    name: 'Wayfarer Classic',
-    react: 4,
-};
-
-interface ReactProps {
-    react: number;
-}
-
-function Rating({ rating, numReviews }: ReactProps) {
+export default function UserPosts() {
     return (
-        <Box d="flex" alignItems="center">
-            {Array(5)
-                .fill('')
-                .map((_, i) => {
-                    const roundedRating = Math.round(rating * 2) / 2;
-                    if (roundedRating - i >= 1) {
-                        return (
-                            <BsStarFill
-                                key={i}
-                                style={{ marginLeft: '1' }}
-                                color={i < rating ? 'teal.500' : 'gray.300'}
-                            />
-                        );
-                    }
-                    if (roundedRating - i === 0.5) {
-                        return <BsStarHalf key={i} style={{ marginLeft: '1' }} />;
-                    }
-                    return <BsStar key={i} style={{ marginLeft: '1' }} />;
-                })}
-            <Box as="span" ml="2" color="gray.600" fontSize="sm">
-                {numReviews} review{numReviews > 1 && 's'}
-            </Box>
-        </Box>
-    );
-}
-
-function UserPosts() {
-    return (
-        <Flex py={30} w="full" alignItems="center" justifyContent="center">
+        <Center py={6}>
             <Box
-
-                bg={useColorModeValue('white', 'gray.800')}
-                maxW="1000px"
-                // borderWidth="1px"
-                rounded="lg"
-                shadow="lg"
-                position="relative">
-                {data.isNew && (
-                    <Circle
-                        size="10px"
-                        position="absolute"
-                        top={2}
-                        right={2}
-                        bg="red.200"
+                maxW={'1000px'}
+                w={'full'}
+                bg={useColorModeValue('white', 'gray.900')}
+                boxShadow={'2xl'}
+                rounded={'md'}
+                p={6}
+                overflow={'hidden'}>
+                <Stack>
+                    <Text
+                        color={'green.500'}
+                        textTransform={'uppercase'}
+                        fontWeight={800}
+                        fontSize={'sm'}
+                        letterSpacing={1.1}>
+                        Blog
+                    </Text>
+                    <Heading
+                        color={useColorModeValue('gray.700', 'white')}
+                        fontSize={'2xl'}
+                        fontFamily={'body'}>
+                        Boost your conversion rate
+                    </Heading>
+                    <Text color={'gray.500'}>
+                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                        nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                        erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+                        et ea rebum.
+                    </Text>
+                </Stack>
+                <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
+                    <Avatar
+                        src={'https://avatars0.githubusercontent.com/u/1164541?v=4'}
+                        alt={'Author'}
                     />
-                )}
-
-                <Image
-                    src={data.imageURL}
-                    alt={`Picture of ${data.name}`}
-                    roundedTop="lg"
-                />
-
-                <Box p="6">
-                    <Box d="flex" alignItems="baseline">
-                        {data.isNew && (
-                            <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="red">
-                                Buddy
-                            </Badge>
-                        )}
-                    </Box>
-                    <Flex mt="1" justifyContent="space-between" alignContent="center">
-                        <Box
-                            fontSize="2xl"
-                            fontWeight="semibold"
-                            as="h4"
-                            lineHeight="tight"
-                            isTruncated>
-                            {data.name}
-                        </Box>
-                        <Tooltip
-                            label="Add to cart"
-                            bg="white"
-                            placement={'top'}
-                            color={'gray.800'}
-                            fontSize={'1.2em'}>
-                            <Box display={'flex'}>
-                                <Icon as={FiHeart} h={7} w={7} alignSelf={'center'} /><Text>{data.react}</Text>
-                            </Box>
-                        </Tooltip>
-                    </Flex>
-
-                    <Flex justifyContent="space-between" alignContent="center">
-                        {/* <Rating rating={data.rating} numReviews={data.numReviews} /> */}
-                        <Box fontSize="2xl" color={useColorModeValue('gray.800', 'white')}>
-                        </Box>
-                    </Flex>
-                </Box>
+                    <Stack direction={'column'} spacing={0} fontSize={'sm'}>
+                        <Text fontWeight={600}>Achim Rolle</Text>
+                        <Text color={'gray.500'}>Feb 08, 2021 · 6min read</Text>
+                    </Stack>
+                </Stack>
             </Box>
-        </Flex>
+        </Center >
     );
 }
-
-export default UserPosts;

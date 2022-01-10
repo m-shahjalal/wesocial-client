@@ -4,6 +4,7 @@ import Forum from '../Pages/Forum/Forum';
 import RepliesDetails from '../Pages/Forum/RepliesDetails';
 import Home from '../Pages/Home/Home';
 import Login from '../Pages/Login/Login';
+import ProfileContent from '../Pages/Profile/ProfileContent';
 import Register from '../Pages/Register/Register';
 import Footer from '../Pages/Shared/Footer/Footer';
 import NavBar from '../Pages/Shared/NavBar/NavBar';
@@ -21,9 +22,8 @@ const Routers = () => {
 					<Route path='teams' element={<Login />} />
 					<Route path='forum' element={<Forum />} />
 					<Route path='forum' element={<Forum />} />
+					<Route path='profile' element={<ProfileContent />} />
 					<Route path={`/forum/replies/:articleID`} element={<RepliesDetails />} />
-
-
 				</Routes>
 				<Footer></Footer>
 			</BrowserRouter>
