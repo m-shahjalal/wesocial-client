@@ -1,45 +1,21 @@
 
-// import { Redirect, Route } from "react-router";
-// import useAuth from "../hooks/useAuth";
-
-
-// function PrivateRoute({ children, ...rest }) {
-//     let {userId, isLoading} = useAuth();
-
-//     if (isLoading) {
-//         return <div class="spinner-border" role="status">
-//         <span class="visually-hidden">Loading...</span>
-//         </div>
-//     }
-    
-//     return (
-//       <Route
-//         {...rest}
-//         render={({ location }) =>
-//           userId.email ? (
-//             children
-//           ) : (
-//             <Redirect
-//               to={{
-//                 pathname: "/login",
-//                 state: { from: location }
-//               }}
-//             />
-//           )
-//         }
-//       />
-//     );
-//   }
-// export default PrivateRoute;
-
-import { Navigate, Outlet } from "react-router-dom";
-import useFirebase from "../hooks/useFirebase";
-
-
-
-const ProtectedRoutes = () => {
-  const {userId} = useFirebase();
-  return userId.email ? <Outlet /> : <Navigate to="/" />;
+import { Container, Spinner } from '@chakra-ui/react';
+import { Navigate, useLocation } from 'react-router';
+import useAuth from '../hooks/useAuth';
+const Private = ({ children }) => {
+  let { isLoggedIn, loading } = useAuth();
+  let location = useLocation();
+  if (loading) {
+    return (
+      <Container>
+        <Spinner size='lg' mx={2} />
+      </Container>
+    );
+  } else if (!isLoggedIn && loading === false) {
+    return <Navigate replace to='/login' state={{ from: location }} />;
+  } else {
+    return children;
+  }
 };
 
-export default ProtectedRoutes;
+export default Private;

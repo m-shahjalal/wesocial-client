@@ -85,9 +85,7 @@ const Footer = () => {
                         templateColumns={{ sm: '1fr 1fr', md: '2fr 1fr 1fr 2fr' }}
                         spacing={8}>
                         <Stack spacing={6}>
-                            <Box>
-                                <Logo color={useColorModeValue('gray.700', 'white')} />
-                            </Box>
+                            <Box><img width={100} src="https://i.ibb.co/kHcY0PH/WE-SOCIAL-LOGO-NO-BACKGROUND-1.png" alt="" /></Box>
                             <Text fontSize={'sm'}>
                                 © WeSocial. All rights reserved
                             </Text>
