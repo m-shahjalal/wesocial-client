@@ -93,7 +93,7 @@ get user list
 
                                     </Link>
                                     <MenuItem>Account Settings</MenuItem>
-                                    {userId.email ? <MenuItem onClick={logOut}>Logout</MenuItem> : <Link to="/SignIn"><MenuItem>Login</MenuItem></Link>}
+                                    {userId.email ? <MenuItem onClick={logOut}>Logout</MenuItem> : <Link to="login"><MenuItem>Login</MenuItem></Link>}
                                 </MenuList>
                             </Menu>
                         </Stack>

@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, NavLink } from 'react-router-dom';
 import { fetchUser } from '../../redux/slices/userSlice';
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub, FaFacebook } from "react-icons/fa";
@@ -52,17 +52,17 @@ const Login = () => {
 
 	/* ______________________________________________________________________ */
 	/* Google log in */
-	const { handleGoogleLogIn, userId} = useFirebase();
-    const history = useNavigate();
-    const location = useLocation();
-    let { from } = location.state || { from: { pathname: "/" } };
+	const { handleGoogleLogIn, userId } = useFirebase();
+	const history = useNavigate();
+	const location = useLocation();
+	let { from } = location.state || { from: { pathname: "/" } };
 
-    const googleSignIn = () => {
-        handleGoogleLogIn()
-        .then((result) => {
-            history.replace(from);
-        })
-    };
+	const googleSignIn = () => {
+		handleGoogleLogIn()
+			.then((result) => {
+				history.replace(from);
+			})
+	};
 	console.log(userId);
 	/* ______________________________________________________________________ */
 
@@ -71,10 +71,10 @@ const Login = () => {
 	/* Conditional Alert */
 	const [startAlert, setStartAlert] = useState(false);
 
-	const startAlertComponent = () =>{
+	const startAlertComponent = () => {
 		setStartAlert(true)
 	}
-	const CloseAlertComponent = () =>{
+	const CloseAlertComponent = () => {
 		setStartAlert(false)
 	}
 
@@ -89,7 +89,7 @@ const Login = () => {
 					<Heading fontSize={'4xl'}>Sign in to your account</Heading>
 					<Text fontSize={'lg'} color={'gray.600'}>
 						to enjoy WeSocial fun{' '}
-						<Box style={{display: 'inline'}} color={'blue.400'}>features</Box> ✌️
+						<Box style={{ display: 'inline' }} color={'blue.400'}>features</Box> ✌️
 					</Text>
 				</Stack>
 				<Box
@@ -97,7 +97,7 @@ const Login = () => {
 					bg={useColorModeValue('white', 'gray.700')}
 					boxShadow={'lg'}
 					p={8}>
-						{user.error && <Text align='center' mb='6' color='red.400'>{user.error}</Text>}
+					{user.error && <Text align='center' mb='6' color='red.400'>{user.error}</Text>}
 					<Stack as='form' onSubmit={handleSubmitData} spacing={4}>
 						<FormControl id='email'>
 							<FormLabel>Email address</FormLabel>
@@ -129,30 +129,37 @@ const Login = () => {
 								Sign in
 							</Button>
 						</Stack>
+						<Stack pt={6}>
+							<Text align={'center'}>
+								<NavLink to='/register' color={'blue.400'}>
+									Don't have an account? Please{' '} Register
+								</NavLink>
+							</Text>
+						</Stack>
 					</Stack>
 				</Box>
 				<Box>
 					{/* Alert for upcoming features */}
 
-					{ startAlert ?<Alert mb={'4'} mt={'0'} status='warning'>
-					<AlertIcon />
-					<Box flex='1'>
-						<AlertTitle>Opsssss!</AlertTitle>
-						<AlertDescription display='block'>
-						This feature is not available at this moment. We are lunching this feature soon. Please, Try google sign in method.
-						</AlertDescription>
-					</Box>
-					<CloseButton onClick={CloseAlertComponent} position='absolute' right='8px' top='8px' />
+					{startAlert ? <Alert mb={'4'} mt={'0'} status='warning'>
+						<AlertIcon />
+						<Box flex='1'>
+							<AlertTitle>Opsssss!</AlertTitle>
+							<AlertDescription display='block'>
+								This feature is not available at this moment. We are lunching this feature soon. Please, Try google sign in method.
+							</AlertDescription>
+						</Box>
+						<CloseButton onClick={CloseAlertComponent} position='absolute' right='8px' top='8px' />
 					</Alert> : null
 					}
 
 					<Flex
 						align={'center'}
-						style={{justifyContent:"space-between"}}
+						style={{ justifyContent: "space-between" }}
 					>
-						<Button onClick={googleSignIn} className='auth-log' boxShadow={'lg'} bg={'white'}><FcGoogle/></Button>
-						<Button onClick={startAlertComponent} className='auth-log' boxShadow={'lg'} bg={'white'}><FaGithub color={'black'}/></Button>
-						<Button onClick={startAlertComponent} className='auth-log' boxShadow={'lg'} bg={'white'} color={'blue.400'}><FaFacebook/></Button>
+						<Button onClick={googleSignIn} className='auth-log' boxShadow={'lg'} borderRadius={'round'} bg={'white'}><FcGoogle /></Button>
+						<Button onClick={startAlertComponent} className='auth-log' boxShadow={'lg'} bg={'white'}><FaGithub color={'black'} /></Button>
+						<Button onClick={startAlertComponent} className='auth-log' boxShadow={'lg'} bg={'white'} color={'blue.400'}><FaFacebook /></Button>
 						{/* With default value */}
 
 					</Flex>

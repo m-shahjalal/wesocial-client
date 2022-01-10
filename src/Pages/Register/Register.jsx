@@ -56,6 +56,7 @@ const Register = () => {
 		<>
 			<Flex
 				minH={'100vh'}
+				minW={'750px'}
 				align={'center'}
 				justify={'center'}
 				bg={useColorModeValue('gray.50', 'gray.800')}>
@@ -153,9 +154,8 @@ const Register = () => {
 							</Stack>
 							<Stack pt={6}>
 								<Text align={'center'}>
-									Already a user?{' '}
 									<NavLink to='/login' color={'blue.400'}>
-										Login
+										Already have an account? {' '} Login
 									</NavLink>
 								</Text>
 							</Stack>
