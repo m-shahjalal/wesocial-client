@@ -8,7 +8,6 @@ import Login from '../Pages/Login/Login';
 import SignIn from '../Pages/Login/SignIn';
 import Signup from '../Pages/Login/Signup';
 import UserData from '../Pages/Login/UserData';
-import PrivateRoute from '../Pages/PrivateRoute/PrivateRoute';
 import ProfileContent from '../Pages/Profile/ProfileContent';
 import Register from '../Pages/Register/Register';
 import Footer from '../Pages/Shared/Footer/Footer';
@@ -23,11 +22,7 @@ const Routers = () => {
 				<Routes>
 					<Route path='signUp' element={<Signup />} />
 					<Route path='signIn' element={<SignIn />} />
-					<Route path='/' element={
-						<PrivateRoute>
-							<Home />
-						</PrivateRoute>
-					} />
+					<Route path='/' element={<Home />} />
 					<Route path='/home' element={<Home />} />
 					<Route path='login' element={<Login />} />
 					<Route path='seeReplies/:statusId' element={<SeeReplies />} />
